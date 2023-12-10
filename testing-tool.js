@@ -1,5 +1,5 @@
 const crypto = require( 'crypto' );
-const axios = require('axios');
+const axios = require( 'axios' );
 const express = require( 'express' );
 const app = express();
 
@@ -24,24 +24,40 @@ function generateSignature( apiSecret, method, uri, timestamp, body ) {
     }
 
     return hmac.digest( 'hex' );
-}
+};
 
-app.get('/comments', function (req, res) {
+app.get('/users', async (req, res) => {
     const config = {
         headers: {
            'X-CS-Timestamp': CSTimestamp,
            'X-CS-Signature': generateSignature(
                 apiSecret,
                 'GET',
-                baseURL + '/comments',
+                baseURL + `/collaborations/${documentId}/users`,
                 CSTimestamp,
                 '' )
         },
      };
 
-     res.send(config)
+     axios.get(baseURL + `/collaborations/${documentId}/users`, config)
+     .then((response) => res.send(response.data))
+});
 
-    //  axios.get(baseURL + '/comments', '', config)
-})
+app.get('/comments', async (req, res) => {
+    const config = {
+        headers: {
+           'X-CS-Timestamp': CSTimestamp,
+           'X-CS-Signature': generateSignature(
+                apiSecret,
+                'GET',
+                baseURL + `/comments?document_id=${documentId}`,
+                CSTimestamp,
+                '' )
+        },
+     };
 
-app.listen(port, () => console.log('Listening on port ' + port))
+     axios.get(baseURL + `/comments?document_id=${documentId}`, config)
+     .then((response) => res.send(response.data))
+});
+
+app.listen(port, () => console.log('Listening on port ' + port));

@@ -4,7 +4,7 @@ const app = express();
 
 const accessKey = '42fpXuxHJYXz2rXJ6YDqIhyeHIjOd7QyUxIwLjdgq8VNB7BUtrXVM0csX8e5';
 const environmentId = 'd7ef7QiheU6CTeZBRvyy';
-const port = 1338;
+const port = 1337;
 
 app.use( ( req, res, next ) => {
     res.setHeader( 'Access-Control-Allow-Origin', '*' );
