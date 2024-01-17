@@ -1,34 +1,24 @@
 const jwt = require( 'jsonwebtoken' );
-const express = require( 'express' );
+const express = require('express');
 const app = express();
 
-const accessKey = '42fpXuxHJYXz2rXJ6YDqIhyeHIjOd7QyUxIwLjdgq8VNB7BUtrXVM0csX8e5';
-const environmentId = 'd7ef7QiheU6CTeZBRvyy';
-const port = 1337;
+const port = 3000;
 
-app.use( ( req, res, next ) => {
-    res.setHeader( 'Access-Control-Allow-Origin', '*' );
-    res.setHeader( 'Access-Control-Allow-Methods', 'GET' );
+// app.use( ( req, res, next ) => {
+//     res.setHeader( 'Access-Control-Allow-Origin', '*' );
+//     res.setHeader( 'Access-Control-Allow-Methods', 'GET' );
 
-    next();
-} );
+//     next();
+// } );
 
-app.get( '/', ( req, res ) => {
+app.get('/', (req, res) => {
     const payload = {
-        aud: environmentId,
-        sub: 'user-125',
-        auth: {
-            'collaboration': {
-                '*': {
-                    'role': 'writer'
-                }
-            }
-        }
-    };
+        name: 'Maja'
+    }
+    const signature = '42fpXuxHJYXz2rXJ6YDqIhyeHIjOd7QyUxIwLjdgq8VNB7BUtrXVM0csX8e5';
+    const options = { algorithm: 'HS256', expiresIn: '24h' };
+    const token = jwt.sign(payload, signature, options);
+    res.send( 'JSON Web Token: ' + token );
+})
 
-    const result = jwt.sign( payload, accessKey, { algorithm: 'HS256', expiresIn: '24h' } );
-
-    res.send( result );
-} );
-
-app.listen( port, () => console.log( 'Listening on port ' + port ) );
+app.listen(port, () => console.log(`Listening on port ${port}`))
