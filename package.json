@@ -1,11 +1,11 @@
 {
-  "name": "maja-grys-junior-qa",
+  "name": "node_jwt",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "token.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node token"
   },
   "keywords": [],
   "author": "",
